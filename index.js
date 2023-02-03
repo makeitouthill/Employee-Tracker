@@ -38,8 +38,7 @@ inquirer.prompt(prompts)
         inquirer.prompt(prompts);
         break;
       case 'Add a department':
-        db.addDepartment(start);
-        inquirer.prompt(prompts);
+        db.addDepartment();
         break;
       case 'Add a role':
         db.addRole(start);
@@ -57,4 +56,18 @@ inquirer.prompt(prompts)
   });
 }
 
+function addDepartment(start){
+    inquirer.prompt([
+      {
+        type: 'input',
+        name: 'departmentName',
+        message: 'Enter the department name:',
+      }
+    ]).then(answer => {
+      const departmentName = answer.departmentName;
+      db.addDepartment(departmentName, start);
+    });
+}
+
+  
 start();

@@ -1,5 +1,8 @@
 const connection = require('./connection');
-
+const inquirer = require('inquirer');
+const prompts = require('./index')
+const start = require('./index')
+ 
 class Database {
     constructor(){
         this.connection = connection;
@@ -37,7 +40,30 @@ viewEmployees(callback) {
         callback();
       }
     );
+    }
+
+ addDepartment(departmentName, start) {
+    inquirer.prompt([
+      {
+        type: 'input',
+        name: 'departmentName',
+        message: 'Enter department name:',
+      }
+    ]).then(answers => {
+      this.connection.query(
+        'INSERT INTO departments SET ?',
+        {
+          name: answers.departmentName,
+        },
+        (err, res) => {
+          if (err) throw err;
+          console.log(`Added department: ${answers.departmentName}`);
+          start();
+        }
+      );
+    });
 }
 }
+
 
 module.exports = new Database();
